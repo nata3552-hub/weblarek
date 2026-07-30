@@ -17,11 +17,13 @@ export interface IProduct {
 }
 
 export interface IBuyer {
-    payment: TPayment;
+    payment: TPayment | null;
     email: string;
     phone: string;
     address: string;
 }
+
+export type TValidationErrors = Partial<Record<keyof IBuyer, string>>;
 
 export interface IProductsResponse {
     total: number;

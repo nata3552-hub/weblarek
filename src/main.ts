@@ -6,7 +6,7 @@ import { BasketModel } from './components/Models/BasketModel';
 import { BuyerModel } from './components/Models/BuyerModel';
 
 import { Api } from './components/base/Api';
-import { WebLarekApi } from './components/Api';
+import { WebLarekApi } from './components/WebLarekApi';
 import { API_URL } from './utils/constants';
 
 
@@ -45,7 +45,7 @@ console.log('Количество товаров:', basket.getCount());
 console.log('Общая стоимость:', basket.getTotal());
 
 console.log(
-    'Первый товар в корзине:',
+    'Есть ли первый товар в корзине:',
     basket.hasProduct(apiProducts.items[0].id)
 );
 
@@ -106,16 +106,19 @@ const webLarekApi = new WebLarekApi(api);
 
 
 async function init() {
-    console.log('Начинаем запрос');
+    try {
+        console.log('Начинаем запрос');
 
-    const data = await webLarekApi.getProducts();
+        const data = await webLarekApi.getProducts();
 
-    console.log('Ответ сервера:', data);
-    
-    catalog.setItems(data.items);
+        console.log('Ответ сервера:', data);
 
-    console.log('Каталог с сервера:', catalog.getItems());
+        catalog.setItems(data.items);
+
+        console.log('Каталог с сервера:', catalog.getItems());
+    } catch (error) {
+        console.error('Ошибка при получении товаров:', error);
+    }
 }
-
 
 init();

@@ -7,7 +7,7 @@ export class WebLarekApi {
         return this.api.get<IProductsResponse>('/product/');
     }
 
-    order(data: IOrder): Promise<IOrderResult> {
-        return this.api.post<IOrderResult>('/order/', data);
+    postOrder(data: IOrder): Promise<IOrderResult> {
+        return this.api.post<IOrderResult>('/order', data);
     }
 }

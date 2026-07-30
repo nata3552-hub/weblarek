@@ -1,7 +1,12 @@
-import { IBuyer } from '../../types';
+import { IBuyer, TValidationErrors } from '../../types';
 
 export class BuyerModel {
-    protected buyer: Partial<IBuyer> = {};
+    protected buyer: IBuyer = {
+        payment: null,
+        email: '',
+        phone: '',
+        address: '',
+    };
 
     // Сохранить данные покупателя
     setData(data: Partial<IBuyer>): void {
@@ -12,32 +17,37 @@ export class BuyerModel {
     }
 
     // Получить данные покупателя
-    getData(): Partial<IBuyer> {
+    getData(): IBuyer {
         return this.buyer;
     }
 
     // Очистить данные покупателя
     clear(): void {
-        this.buyer = {};
+        this.buyer = {
+            payment: null,
+            email: '',
+            phone: '',
+            address: '',
+        };
     }
 
     // Проверить заполнение данных
-    validate(): Partial<Record<keyof IBuyer, string>> {
-        const errors: Partial<Record<keyof IBuyer, string>> = {};
+    validate(): TValidationErrors {
+        const errors: TValidationErrors = {};
 
         if (!this.buyer.payment) {
             errors.payment = 'Не выбран способ оплаты';
         }
 
-        if (!this.buyer.address) {
+        if (!this.buyer.address.trim()) {
             errors.address = 'Введите адрес';
         }
 
-        if (!this.buyer.email) {
+        if (!this.buyer.email.trim()) {
             errors.email = 'Введите email';
         }
 
-        if (!this.buyer.phone) {
+        if (!this.buyer.phone.trim()) {
             errors.phone = 'Введите телефон';
         }
 
