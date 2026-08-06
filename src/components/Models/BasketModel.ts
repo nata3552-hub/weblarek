@@ -1,7 +1,13 @@
 import { IProduct } from '../../types';
+import { IEvents } from '../base/Events';
 
 export class BasketModel {
     protected items: IProduct[] = [];
+
+    constructor(
+        protected events: IEvents
+    ) {}
+
 
     // Получить товары из корзины
     getItems(): IProduct[] {
@@ -10,17 +16,37 @@ export class BasketModel {
 
     // Добавить товар
     addProduct(product: IProduct): void {
-        this.items.push(product);
+
+        if (!this.hasProduct(product.id)) {
+            this.items.push(product);
+
+            this.events.emit('basket:changed');
+        }
+
     }
 
     // Удалить товар
     removeProduct(product: IProduct): void {
-        this.items = this.items.filter(item => item.id !== product.id);
+
+        const oldLength = this.items.length;
+
+        this.items = this.items.filter(
+            item => item.id !== product.id
+        );
+
+        if (this.items.length !== oldLength) {
+            this.events.emit('basket:changed');
+        }
+
     }
 
     // Очистить корзину
     clear(): void {
+
         this.items = [];
+
+        this.events.emit('basket:changed');
+
     }
 
     // Общая стоимость
