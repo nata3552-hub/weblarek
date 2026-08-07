@@ -6,22 +6,28 @@ interface IContacts {
 }
 
 export class Contacts extends Form<IContacts> {
+    protected emailInput: HTMLInputElement;
+    protected phoneInput: HTMLInputElement;
 
-    set email(value: string) {
-        const input = this.container.querySelector<HTMLInputElement>(
-            'input[name="email"]'
-        )!;
+    constructor(container: HTMLElement) {
+        super(container);
 
-        input.value = value;
+        this.emailInput =
+            container.querySelector<HTMLInputElement>(
+                'input[name="email"]'
+            )!;
+
+        this.phoneInput =
+            container.querySelector<HTMLInputElement>(
+                'input[name="phone"]'
+            )!;
     }
 
+    set email(value: string) {
+        this.emailInput.value = value;
+    }
 
     set phone(value: string) {
-        const input = this.container.querySelector<HTMLInputElement>(
-            'input[name="phone"]'
-        )!;
-
-        input.value = value;
-}
-
+        this.phoneInput.value = value;
+    }
 }

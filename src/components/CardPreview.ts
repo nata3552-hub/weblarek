@@ -1,32 +1,26 @@
-import { CardBase, ICardBase } from './CardBase';
+import { ProductCard, IProductCard } from './ProductCard';
 
-
-interface IPreviewCard extends ICardBase {
+interface IPreviewCard extends IProductCard {
     description: string;
 }
 
-
-export class PreviewCard extends CardBase<IPreviewCard> {
-
+export class PreviewCard extends ProductCard<IPreviewCard> {
     protected descriptionElement: HTMLElement;
     protected buttonElement: HTMLButtonElement;
-
 
     constructor(container: HTMLElement) {
         super(container);
 
         this.descriptionElement =
-            container.querySelector('.card__text')!;
+            container.querySelector<HTMLElement>('.card__text')!;
 
         this.buttonElement =
-            container.querySelector('.card__button')!;
+            container.querySelector<HTMLButtonElement>('.card__button')!;
     }
-
 
     set description(value: string) {
         this.descriptionElement.textContent = value;
     }
-
 
     set onClick(handler: () => void) {
         this.buttonElement.addEventListener(
@@ -39,9 +33,7 @@ export class PreviewCard extends CardBase<IPreviewCard> {
         this.buttonElement.textContent = value;
     }
 
-
     set disabled(value: boolean) {
         this.buttonElement.disabled = value;
     }
-
 }
